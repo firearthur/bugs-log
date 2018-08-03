@@ -102,3 +102,81 @@ Credits go to this Stack Overflow [post](https://stackoverflow.com/questions/467
 * You'll need to paste that into your Github SSH textarea as the tutorial above shows you.
 * You're pretty much set now. However you wanna make sure you're pushing and pulling through SSH. Check out this Stack Overflow [post](https://stackoverflow.com/questions/14762034/push-to-github-without-password-using-ssh-key) which shows you how to do it.
 
+
+
+## 7- How to build full-stack app with ES6 Node for back-end and create-react-app with CSS-Moduels in the front-end and using `.env` variables:
+
+**Bug Description**: Exactly what it sounds like. These are steps to get a full-stack app running with some convenient set-up.
+
+**Bug Cause**: N/A.
+
+**Bug Fix**:
+
+### For using CSS-Modules do the following. Otherwise, skip this step: (Why would you not use it?!)
+* Create a new app with CRA (create-react-app).
+* Eject using the command `yarn eject`.
+* Find the file `webpack.config.dev.js` and replace this code:
+```
+{
+  loader: require.resolve('css-loader'),
+  options: {
+    importLoaders: 1,
+  },
+},
+
+```
+* With this code: 
+```
+{
+  loader: require.resolve('css-loader'),
+  options: {
+    importLoaders: 1,
+    modules: true,
+    localIdentName: "[name]__[local]___[hash:base64:5]"  
+  },
+},
+```
+
+* Next, find this file `webpack.config.prod.js` and change the following code:
+```
+{
+  loader: require.resolve('css-loader'),
+  options: {
+    importLoaders: 1,
+    minimize: true,
+    sourceMap: true,
+   },
+},
+```
+* With the following:
+
+```
+{
+  loader: require.resolve('css-loader'),
+  options: {
+    importLoaders: 1,
+    modules: true,
+    minimize: true,
+    sourceMap: true,
+   },
+},
+```
+* This makes use of CSS-Modules on both, the production build and the development one.
+* If you'd like to use a nicer (which I do) syntax than your old `style.className` you can take a look at the final section of this [post](https://blog.pusher.com/css-modules-react/) as it thaught me how to do this.
+
+### For using ES6 in Node do the following: (take this part with a grain of salt)
+* Create a `.bablerc` file in your root directory (I think this should be adjacent to your package.json. Not too sure though) and paste the following code in there:
+```
+{
+  "presets": ["env", "es2015"]
+}
+```
+* This adds the configs to your directory. Next we need to have a build script.
+* Add this script to your `package.json` file: `"build-server": "rm -rf dist/ && babel ./ --out-dir dist/ --ignore readme.md,yarn.lock,./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",`.
+* If you run `yarn build-server` or `npm run build-server` you should see a `dist` directory with the transpiled code in it.
+* For having hot reloading with nodemon when in development add the following command to your scripts at `package.json` file: `"server": "nodemon --exec yarn babel-node -- ./index.js",`.
+* **Note** You would need to change the path to your server file after `--exec yarn babel-node --`. Mine happens to be `./index.js`. Also, if you don't want to use `yarn` you can replace it with `npm run`.
+* This should allow you to run nodemon without having issues with ES6.
+
+**High-level steps**:
+* 

@@ -85,3 +85,20 @@ Full version, try looking at this Stack Overflow [post](http://stackoverflow.com
 * There is another way that's mentioned in this post below.
 
 Credits go to this Stack Overflow [post](https://stackoverflow.com/questions/46791107/appending-string-to-img-src-in-angular-4).
+
+## 6- How to create an SSH key to push/pull to Github without inputting credentials:
+
+**Bug Description**: Not much of a bug more of a process that could be tricky if it's your first time. This is especially handy if you have two factor verification (2FA) because there's no way to input the verification code through the command line when using HTTPS to pull and push.
+
+**Bug Cause**: N/A.
+
+**Bug Fix**:
+* Here is the official Github help [tutorial](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/) on how to do this.
+
+**High-level steps**:
+* First you gotta create an SSH key on your machine or use an exsiting one.
+* You'll noticed the key comes as a public (one that ends with .pub) private pair.
+* cat or nano into the public key and copy all of its content.
+* You'll need to paste that into your Github SSH textarea as the tutorial above shows you.
+* You're pretty much set now. However you wanna make sure you're pushing and pulling through SSH. Check out this Stack Overflow [post](https://stackoverflow.com/questions/14762034/push-to-github-without-password-using-ssh-key) which shows you how to do it.
+

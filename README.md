@@ -174,9 +174,19 @@ Credits go to this Stack Overflow [post](https://stackoverflow.com/questions/467
 * This adds the configs to your directory. Next we need to have a build script.
 * Add this script to your `package.json` file: `"build-server": "rm -rf dist/ && babel ./ --out-dir dist/ --ignore readme.md,yarn.lock,./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",`.
 * If you run `yarn build-server` or `npm run build-server` you should see a `dist` directory with the transpiled code in it.
-* For having hot reloading with nodemon when in development add the following command to your scripts at `package.json` file: `"server": "nodemon --exec yarn babel-node -- ./index.js",`.
+* For having hot reloading with nodemon when in development add the following commands to your scripts at `package.json` file: `"babel-node": "babel-node --presets=env"` and `"server": "nodemon --exec yarn babel-node -- ./index.js",`.
 * **Note** You would need to change the path to your server file after `--exec yarn babel-node --`. Mine happens to be `./index.js`. Also, if you don't want to use `yarn` you can replace it with `npm run`.
 * This should allow you to run nodemon without having issues with ES6.
 
-**High-level steps**:
-* 
+### Finally, for using `.env` vars in both back-end and front-end:
+* Front-end is pretty easy. All what you got to do is create a file called `.env` in your client root directory. Then, make sure all your variables inside of it are prepended with `REACT_APP_` like `REACT_APP_SOMENAME`.
+* For the back-end. You want to `yarn add dotenv` or `npm install -s dotenv`. Create a `.env` file in your server root directory. Then make sure you import dotenv/config as follows in your entry point, mine would be as follows:
+
+```
+// index.js
+import 'dotenv/config';
+import './src/app';
+
+```
+* This creates the env vars first before running your app. That way all the spots you used `process.env.VAR_NAME` would be loaded properly.
+* That's it!
